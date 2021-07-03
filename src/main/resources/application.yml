@@ -1,0 +1,42 @@
+spring:
+  influx:
+    url: http://${INFLUX_URL:127.0.0.1}:8086
+    user: ${INFLUX_USER:admin}
+    password: ${INFLUX_PASSWORD:P@55w0rd}
+    database: ${INFLUX_DATABASE_NAME:sentinelMetric}
+    max-idle: 30
+    keep-alive-duration: 200
+    retention-policy: autogen
+    connect-timeout: 10
+    read-timeout: 30
+    write-timeout: 10
+auth:
+  filter:
+    exclude-urls: /,/auth/login,/auth/logout,/registry/machine,/version
+    exclude-url-suffixes: htm,html,js,css,map,ico,ttf,woff,png
+  username: ${SENTINEL_USERNAME:sentinel}
+  password: ${SENTINEL_PASSWORD:sentinel}
+server:
+  servlet:
+    encoding:
+      force: true
+      charset: utf-8
+      enabled: true
+    session:
+      cookie:
+        name: sentinel_dashboard_cookie
+logging:
+  level:
+    org:
+      springframework:
+        web: INFO
+    com:
+      taosdata:
+        jdbc:
+          springbootdemo:
+            dao: DEBUG
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
+sentinel:
+  dashboard:
+    version: @project.version@
